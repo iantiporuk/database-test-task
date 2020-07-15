@@ -1,0 +1,52 @@
+In db_testtask.sql we have described simple author-bookstore-sell system, which consist of six tables:
+	1. t_book_authors
+	2. t_books
+	3. t_bookstores
+	4. t_bookstore_books
+	5. t_bookstore_sold_books
+	6. t_report_sold_books
+
+Let's imagine in those tables we have huge mass of records. Please create sql queries (db dump file isn't acceptable) to complete next tasks:
+	1. create foreign key and primary key connections between tables, excluding table `t_report_sold_books`
+	2. optimize tables for next tasks
+	3. create triggers for table `t_bookstore_sold_books` which will update insert_date and update_date depending action
+	4. create books rankings view:
+		1. which will output:
+			1. queue number, field name: position
+			2. book's title, field name: title
+			3. book's author (first name, last name), field name: author
+			4. sold books count, field name: sold_count
+		2. conditions:
+			1. only those books which has been published 2013 or later
+			2. only those books which ISBN doesn't start with 97912
+			3. only those books which whole sale price is 768 CCY or more
+	5. create view which will output how much we need to pay to author:
+		1. which will output:
+			1. book's title, field name: title
+			2. book's author (first name, last name), field name: author
+			3. author's e-mail, field name: e_mail
+			4. overview how much we have paid to this author, field name: paid
+			5. overview how much we need to pay to this author, field name: to_pay
+	6. create stored procedure:
+		1. which will insert and updates sold books information:
+			1. base data comes from `t_report_sold_books` (NB! you can not alter or delete data, it is read only)
+			2. tables which should be updated: `t_bookstore_sold_books`, `t_bookstore_books`
+		2. returns table with inserted and updated data
+	7. create stored procedure:
+		1. which will update profit field in table `t_book_authors`. it must take account field percent_of_profit in table `t_book` on this calculation
+
+	
+CCY	is abbreviation for currency
+
+Folder `migrations` contains migrations with tasks.
+Folder `seeds` contains a data for testing.
+
+There is a command `make migrate` for fast start.
+
+SQL commands:
+    1. select * from books_ranking_view;
+    2. select * from need_to_pay_view;
+    3. call update_author_profit();
+    4. call insert_sold_books();
+
+
